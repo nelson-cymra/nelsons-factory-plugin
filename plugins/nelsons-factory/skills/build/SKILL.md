@@ -62,6 +62,9 @@ run now", "answer the factory on the expiry report: use the batch's own date"), 
    - **needs-info:** `factory_answer(project, issue, text)`, and the job carries on.
    - **needs-human:** `factory_rework(project, issue, note)`, and the builder picks the job up
      again with the note.
+   - **needs-human, nothing to change** ("merge it", "Actions are back on"; the reason says
+     GitHub didn't run CI or refused the merge): `factory_merge(project, issue)`. The factory
+     runs the checks and CI again on the commit it already passed and merges if they pass.
 
    If what they said doesn't fit what the job is waiting for, say so and ask before sending.
 4. Report the factory's reply in one line. The reply is posted on the job's GitHub issue as them.
