@@ -1,0 +1,14 @@
+{
+  "name": "nelsons-factory",
+  "description": "Nelson's Factory for Claude Code: send a feature or a fix to the factory, which builds, checks, reviews and merges it in your GitHub repo.",
+  "owner": {
+    "name": "Nelson's Factory"
+  },
+  "plugins": [
+    {
+      "name": "nelsons-factory",
+      "source": "./plugins/nelsons-factory",
+      "description": "The factory's connection (sign in with GitHub) and the build skill that turns an idea into a brief and sends it."
+    }
+  ]
+}
