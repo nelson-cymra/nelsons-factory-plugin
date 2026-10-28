@@ -1,7 +1,7 @@
 {
   "name": "nelsons-factory",
   "displayName": "Nelson's Factory",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Send a feature or a fix to Nelson's Factory, which builds, checks, reviews and merges it in your GitHub repo. Signs in with GitHub.",
   "author": {
     "name": "Nelson's Factory"

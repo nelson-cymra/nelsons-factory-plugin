@@ -1,6 +1,6 @@
 ---
 name: build
-description: Use when the user wants something built by Nelson's Factory instead of locally - "/nelsons-factory:build ...", "factory: ...", "get the factory to ...", "send this to the factory", or a feature or fix for one of their factory projects that should go through the factory's tools.
+description: Use when the user wants something built by Nelson's Factory instead of locally, or wants to answer or reply to one of its jobs - "/nelsons-factory:build ...", "factory: ...", "get the factory to ...", "send this to the factory", or a feature or fix for one of their factory projects that should go through the factory's tools.
 ---
 
 # Nelson's Factory: build
@@ -50,6 +50,21 @@ user never has to explain the process.
 
 If the user says "send it" / "skip the questions" at any point, go straight to step 4 with what you
 have, and fill the gaps with stated defaults under **Decisions**.
+
+## Replying to the factory
+When the user wants to answer a job or tell a stopped job what to do ("tell job 49 its checks can
+run now", "answer the factory on the expiry report: use the batch's own date"), don't write a brief:
+1. Find the job: `factory_status` (or `factory_job` with its id or issue number). If more than one
+   job could be meant, ask which.
+2. Read why it's waiting, with `factory_job`: a question (stage **needs-info**) or a stop for a
+   person (stage **needs-human**, with the reason).
+3. Send the user's words, without rewriting their meaning:
+   - **needs-info:** `factory_answer(project, issue, text)`, and the job carries on.
+   - **needs-human:** `factory_rework(project, issue, note)`, and the builder picks the job up
+     again with the note.
+
+   If what they said doesn't fit what the job is waiting for, say so and ask before sending.
+4. Report the factory's reply in one line. The reply is posted on the job's GitHub issue as them.
 
 ## The brief
 **Title:** imperative, under 70 characters, names the screen ("Stock page: flag batches near expiry").
