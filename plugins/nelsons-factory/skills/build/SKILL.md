@@ -12,11 +12,15 @@ a one-line idea into a grounded brief (questions one at a time, play back), then
 user never has to explain the process.
 
 ## The recipe
-1. **Project.** Call `factory_projects` once. It lists the projects (GitHub repos) the user can send
-   work to, their role, the areas their jobs may change, and whether each is ready.
-   - One project: use it.
-   - Several: use the one the user named, or the one whose GitHub remote matches the current folder
-     (`git remote get-url origin`); otherwise ask which, as your first question.
+1. **Project.** Call `factory_projects` first, before anything else. It lists the projects (the
+   GitHub repos connected to the factory) the user can send work to, their role, the areas their jobs
+   may change, and whether each is ready. The project is always one of these, never inferred from
+   the folder Claude Code is running in.
+   - The user named one of them in their request: use it.
+   - Only one: use it, and say which in your first message.
+   - Several: ask which, as your first question, with the AskUserQuestion tool. One option per
+     connected project, labelled with the repo name, its description saying whether it's ready (and
+     why not, when it isn't). Wait for the answer before recon.
    - None: the factory isn't installed on any repo they can push to. Say so and point them to the
      dashboard, https://nodejs-1683750-6753929.cloudwaysnodeapps.com, to connect a repo.
    - The brief must fit the user's areas (everything, for an owner).
@@ -31,8 +35,9 @@ user never has to explain the process.
 
    Find the page or route, its components, the data models and fields involved, existing helpers,
    and where the tests live. Read only; change nothing.
-3. **Brainstorm.** First message: one line ("say *send it* any time and I'll submit what we have"),
-   then what you found in a sentence or two, then **one** question grounded in it (name the real
+3. **Brainstorm.** First message after the project is settled: one line ("say *send it* any time and
+   I'll submit what we have"), then what you found in a sentence or two, then **one** question
+   grounded in it (name the real
    field, screen or rule). One question per message after that; open questions first, a short menu
    only when they're stuck. Usually 1-3 questions.
 4. **The brief is your playback.** When the open points are settled, show it exactly as it will be
