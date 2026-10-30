@@ -40,24 +40,31 @@ idea changes a screen, then submits both. The user never has to explain the proc
    grounded in it (name the real
    field, screen or rule). One question per message after that; open questions first, a short menu
    only when they're stuck. Usually 1-3 questions.
-4. **Mockup, when the idea changes something people see.** As soon as you know what the screen
-   shows (usually after the first answer), draw it without asking first, and redraw it after each
-   answer that changes it. Skip it for changes nobody sees, or when the user says no.
-   - **One self-contained HTML file**, under 40,000 characters: an inline `<style>`, at most a
-     small inline `<script>` to switch between states, nothing loaded from the web, no form that
-     submits anywhere.
-   - **It looks like the app.** Take the colours, font, spacing and the look of tables, cards and
-     buttons from what recon read (the theme or Tailwind config, the global styles, the neighbouring
-     screen). Use the real field and column names, sample values that look real, and the app's
-     wording. Below the main view, show the other states the idea has (empty, zero, overdue), each
-     labelled. It must work at phone width.
+4. **Mockup, when the idea changes something people see.** Draw the screen as it will be after
+   the change, never as it is today, as soon as you know what changes (usually after the first
+   answer), without asking first. Redraw it after each answer that changes it. Skip it for changes
+   nobody sees, or when the user says no.
+   - **A real HTML page, in a file**: a full document under 40,000 characters, with an inline
+     `<style>`, at most a small inline `<script>` to switch between states, nothing loaded from the
+     web, and no form that submits anywhere. Never an inline chat widget (a `visualize` or
+     `show_widget` tool): those draw in Claude's own look at chat width, not the app's.
+   - **It looks like the app, not like Claude.** Copy the app's colours, font, sizes, spacing and
+     its tables, cards, tabs and buttons as fixed values, from what recon read (the theme or
+     Tailwind config, the global styles, the neighbouring screen and its components); read those
+     files now if recon didn't. Full page width, with the app's own header and layout around the
+     part that changes. Use the real field and column names, sample values that look real, and the
+     app's wording. Below the main view, show the other states the idea has (empty, zero, overdue),
+     each labelled. It must work at phone width.
    - **Where:** a temp folder outside the project (your scratchpad when you have one), named
      `<short-name>-mockup.html`. Never write it in the checkout.
-   - **Show it.** In the Claude Code desktop app, open it in the Browser pane: with browser or
-     preview tools, open the file yourself, check the screenshot, and look at phone width too;
-     otherwise give the full path, which opens in the pane when clicked. In a terminal, give the
-     full path and offer to open it in their browser. Say once that it's a mockup with sample data,
-     and that the factory builds the real screen with the app's own components.
+   - **Plan mode blocks it.** Plan mode allows no file but the plan, and no submit. When it's on,
+     say in one line that the mockup needs it off (the mode menu by the prompt box, or Shift+Tab),
+     and draw the mockup once it is.
+   - **Show it.** In the Claude Code desktop app, open it in the Browser pane: navigate the browser
+     tools to its `file:///` URL, check the screenshot, and resize to phone width too. If they can't
+     open it, give the full path, which opens in the pane when clicked. In a terminal, give the full
+     path and offer to open it in their browser. Say once that it's a mockup with sample data, and
+     that the factory builds the real screen with the app's own components.
 5. **The brief is your playback.** When the open points are settled, show it exactly as it will be
    sent, plus the mockup's path when there is one, and end with: *Reply **send** to submit, or tell
    me what to change.* The brief still says everything in words; the mockup shows it.
@@ -144,3 +151,5 @@ plan, build and review, so these endings don't apply:
 | A vague acceptance criterion ("works well") | Make it checkable: input, then the expected result |
 | The mockup's HTML pasted into the brief | Pass it as `mockup`; the body stays words |
 | A mockup in plain HTML that looks nothing like the app | Take its colours, font and components' look from recon |
+| A mockup of today's screen | Draw it as it will be after the change |
+| An inline chat widget instead of the HTML file | A file in the app's look, opened in the Browser pane |
