@@ -8,8 +8,8 @@ description: Use when the user wants something built by Nelson's Factory instead
 ## Overview
 The factory (the `factory` connection from this plugin) builds, checks, reviews and **merges to the
 project's main branch by itself**, so the brief you send is the only thing it knows. This skill turns
-a one-line idea into a grounded brief (questions one at a time, play back), then submits it. The
-user never has to explain the process.
+a one-line idea into a grounded brief (questions one at a time, play back), draws a mockup when the
+idea changes a screen, then submits both. The user never has to explain the process.
 
 ## The recipe
 1. **Project.** Call `factory_projects` first, before anything else. It lists the projects (the
@@ -40,15 +40,38 @@ user never has to explain the process.
    grounded in it (name the real
    field, screen or rule). One question per message after that; open questions first, a short menu
    only when they're stuck. Usually 1-3 questions.
-4. **The brief is your playback.** When the open points are settled, show it exactly as it will be
-   sent, and end with: *Reply **send** to submit, or tell me what to change.*
-5. **Submit on approval** ("send", "yes", "go", "looks good"), with no further question:
-   `factory_submit(project, title, body)`. That opens the issue labelled for the factory, and the job
-   starts by itself. Report the issue link and how to follow it (the board at
+4. **Mockup, when the idea changes something people see.** As soon as you know what the screen
+   shows (usually after the first answer), draw it without asking first, and redraw it after each
+   answer that changes it. Skip it for changes nobody sees, or when the user says no.
+   - **One self-contained HTML file**, under 40,000 characters: an inline `<style>`, at most a
+     small inline `<script>` to switch between states, nothing loaded from the web, no form that
+     submits anywhere.
+   - **It looks like the app.** Take the colours, font, spacing and the look of tables, cards and
+     buttons from what recon read (the theme or Tailwind config, the global styles, the neighbouring
+     screen). Use the real field and column names, sample values that look real, and the app's
+     wording. Below the main view, show the other states the idea has (empty, zero, overdue), each
+     labelled. It must work at phone width.
+   - **Where:** a temp folder outside the project (your scratchpad when you have one), named
+     `<short-name>-mockup.html`. Never write it in the checkout.
+   - **Show it.** In the Claude Code desktop app, open it in the Browser pane: with browser or
+     preview tools, open the file yourself, check the screenshot, and look at phone width too;
+     otherwise give the full path, which opens in the pane when clicked. In a terminal, give the
+     full path and offer to open it in their browser. Say once that it's a mockup with sample data,
+     and that the factory builds the real screen with the app's own components.
+5. **The brief is your playback.** When the open points are settled, show it exactly as it will be
+   sent, plus the mockup's path when there is one, and end with: *Reply **send** to submit, or tell
+   me what to change.* The brief still says everything in words; the mockup shows it.
+6. **Submit on approval** ("send", "yes", "go", "looks good"), with no further question:
+   `factory_submit(project, title, body, mockup)`, where `mockup` is the mockup file's contents
+   (leave it out when there's none). That opens the issue labelled for the factory, with the
+   mockup folded away at its end, and the job starts by itself. The factory's builder builds the
+   screen to the mockup and its UI reviewers check against it; where they differ, the brief wins.
+   If `factory_submit` refuses the `mockup` argument, submit without it and tell the user the
+   factory hasn't been updated to take mockups yet. Report the issue link and how to follow it (the board at
    https://nodejs-1683750-6753929.cloudwaysnodeapps.com, or `factory_status`). Then stop: no polling
    unless asked.
 
-If the user says "send it" / "skip the questions" at any point, go straight to step 4 with what you
+If the user says "send it" / "skip the questions" at any point, go straight to step 5 with what you
 have, and fill the gaps with stated defaults under **Decisions**.
 
 ## Replying to the factory
@@ -102,7 +125,7 @@ run now", "answer the factory on the expiry report: use the batch's own date"), 
   missing, offer a first brief that makes it possible, and submit nothing until it's agreed.
 
 ## What this replaces
-When this skill runs, step 5 is the end of the conversation. The factory does its own intake, spec,
+When this skill runs, step 6 is the end of the conversation. The factory does its own intake, spec,
 plan, build and review, so these endings don't apply:
 
 | The usual ending | Here |
@@ -119,3 +142,5 @@ plan, build and review, so these endings don't apply:
 | Reading a stale local branch | Read `origin/<default branch>`, which is what the factory builds on |
 | Guessing field names in the brief | Use the names recon found, or ask |
 | A vague acceptance criterion ("works well") | Make it checkable: input, then the expected result |
+| The mockup's HTML pasted into the brief | Pass it as `mockup`; the body stays words |
+| A mockup in plain HTML that looks nothing like the app | Take its colours, font and components' look from recon |
