@@ -117,11 +117,13 @@ run now", "answer the factory on the expiry report: use the batch's own date"), 
   the rest.
 - **A bigger idea that takes several steps:** plan it as a chain of small jobs (one screen or one
   behaviour each; a data-model change is its own first job).
-  1. Before any brief, show the plan: numbered jobs, one line each, and which one each builds on.
-     Ask your one question about the split.
+  1. Before any brief, show the plan: a short name for the whole piece of work (the feature, like
+     "Nutrition & IPM"), then numbered jobs, one line each, and which one each builds on. Ask your
+     one question about the split.
   2. Then show every brief. Each later brief's **Where things are today** describes the main branch
      after the jobs before it ("after job 1: `Batch.expiryDate` exists").
-  3. On **send**, submit them in order. Each dependent brief ends with a line `Depends on: #<issue>`,
+  3. On **send**, submit them in order, each with `feature` set to that same name, so the board
+     shows them as one feature. Each dependent brief ends with a line `Depends on: #<issue>`,
      or `Depends on: #201, #203` for several, using the issue numbers the earlier `factory_submit`
      calls returned. The factory won't start a job until everything it depends on has merged, and
      says so on its issue.
